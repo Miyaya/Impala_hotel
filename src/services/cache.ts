@@ -1,5 +1,5 @@
 import NodeCache from 'node-cache';
-import Hotel from '../interfaces/hotel';
+import Hotel from '../models/hotel';
 
 class Cache {
 
@@ -13,17 +13,12 @@ class Cache {
         });
     }
 
-    get(key: string) {//, storeFunction: () => Promise<any>) {
+    get(key: string) {
         const value = this.cache.get(key);
         if (value) {
             // return Promise.resolve(value);
             return value;
         }
-
-        // return storeFunction().then((result) => {
-        //     this.cache.set(key, result);
-        //     return result;
-        // });
     }
 
     set(hotel: Hotel, ttl: number) {

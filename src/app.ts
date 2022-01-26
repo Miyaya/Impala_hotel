@@ -1,19 +1,32 @@
 import express from 'express';
-import Hotel from './interfaces/hotel';
+import dotenv from 'dotenv';
 import Cache from './services/cache';
+import { getHotelRaw, simplifyHotels } from './services/dataLoader';
 
 const app = express();
-const port = 3000;
-const ttl = 60 * 60;
-const cache = new Cache(ttl); // 1hr
+dotenv.config();
+
+const port = process.env.PORT;
+const ttl = 5 * 60;
+const cache = new Cache(ttl); // 5min
 
 app.get('/', (req, res) => {
     res.send('The server is working!');
 });
 
-app.get('/hotels', (req, res) => {
-    cache.set(new Hotel('111', 'FR', 'xHotel', 'This is an example', 'https://google.com'), ttl);
-    let hotel = cache.get('111');
+app.get('/hotels', async (req, res) => {
+
+    const raw = await getHotelRaw();
+    let hotels = simplifyHotels(raw);
+    hotels.forEach(hotel => cache.set(hotel, ttl));
+
+    res.send(hotels);
+});
+
+app.get('/hotels/:id', async (req, res) => {
+
+    let hotel = cache.get(`${req.params.id}`);
+    console.log(hotel);
     res.send(hotel);
 });
 

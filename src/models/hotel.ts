@@ -1,7 +1,7 @@
 class Hotel {
     hotelId: string;
     address: {
-        country: string;
+        countryCode: string;
     };
     title: string;
     description: {
@@ -12,9 +12,9 @@ class Hotel {
     }
         ;
 
-    constructor(hotelId: string, country: string, title: string, description_short: string, imageUrl: string) {
+    constructor(hotelId: string, countryCode: string, title: string, description_short: string, imageUrl: string) {
         this.hotelId = hotelId;
-        this.address = { country: country };
+        this.address = { countryCode: countryCode };
         this.title = title;
         this.description = { "short": description_short };
         this.imageUrls = { 0: imageUrl }
