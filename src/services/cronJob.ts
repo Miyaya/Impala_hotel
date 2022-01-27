@@ -3,8 +3,7 @@ import { loadHotels } from './hotel';
 
 function syncHotels() {
     let minutes = new Date().getMinutes();
-    //cron.schedule(`${minutes} * * * *`, function () {
-    cron.schedule(`* * * * *`, function () {
+    cron.schedule(`${minutes} * * * *`, function () {
         loadHotels();
     });
 }

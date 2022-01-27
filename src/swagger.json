@@ -1,0 +1,121 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Impala Hotel API",
+        "description": "",
+        "version": "0.0.1"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/",
+            "description": "Local server"
+        }
+    ],
+    "paths": {
+        "/hotels": {
+            "get": {
+                "summary": "Return all hotels with criteria.",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "countryCode",
+                        "in": "query",
+                        "description": "country code where the hotel locates",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cityName",
+                        "in": "query",
+                        "description": "city name where the hotel locates",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A JSON array of hotels",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Hotel"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Hotel": {
+                "properties": {
+                    "hotelId": {
+                        "type": "string",
+                        "example": "25bd10d7-b6af-4d6d-829b-b6bb65ca200b"
+                    },
+                    "address": {
+                        "type": "object",
+                        "properties": {
+                            "countryCode": {
+                                "type": "string",
+                                "example": "GBK"
+                            },
+                            "cityName": {
+                                "type": "string",
+                                "example": "Castle Douglas"
+                            }
+                        }
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Craigadam"
+                    },
+                    "description": {
+                        "type": "object",
+                        "properties": {
+                            "short": {
+                                "type": "string",
+                                "example": "Craigadam is as convenient and central as it is a tranquil and relaxing place to stay for touring in South West Scotland."
+                            }
+                        }
+                    },
+                    "imageUrls": {
+                        "type": "object",
+                        "properties": {
+                            "0": {
+                                "type": "object",
+                                "properties": {
+                                    "altText": {
+                                        "type": "string"
+                                    },
+                                    "height": {
+                                        "type": "number",
+                                        "example": 882
+                                    },
+                                    "width": {
+                                        "type": "number",
+                                        "example": 1241
+                                    },
+                                    "url": {
+                                        "type": "string"
+                                    },
+                                    "isHeroImage": {
+                                        "type": "boolean"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "countryCode"
+                ]
+            }
+        }
+    }
+}

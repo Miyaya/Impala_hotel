@@ -6,7 +6,7 @@ router.get('/', (req: express.Request, res: express.Response) => {
     res.send('The server is working!');
 })
 
-router.get('/hotels/', async (req: express.Request, res: express.Response) => {
+router.get('/hotels', async (req: express.Request, res: express.Response) => {
     let hotel;
     if (req.query.cityName == undefined) {
         hotel = searchHotels(`${req.query.countryCode}`);
