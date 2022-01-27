@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Hotel from '../models/hotel';
-import Cache from '../repos/cache';
+import cache from '../repos/cache';
 
 async function getHotelRaw() {
     const requestUrl = `${process.env.IMPALA_API_URL}`;
@@ -25,7 +25,7 @@ function parseHotels(hotelRaw: any[]) {
     return hotels;
 }
 
-async function loadHotels(cache: Cache) {
+async function loadHotels() {
     const raw = await getHotelRaw();
     let hotels = parseHotels(raw);
 
@@ -33,4 +33,25 @@ async function loadHotels(cache: Cache) {
     console.log(new Date() + ': Successfully loaded hotels');
 }
 
-export { loadHotels };
+function searchHotels(countryName: string, cityName?: string) {
+    let res: Hotel[] = [];
+    const hotels = cache.getAll();
+    if (cityName == undefined) {
+        hotels.forEach(hotel => {
+            if (hotel.address.countryCode == countryName) {
+                res.push(hotel);
+            }
+        });
+    } else {
+        hotels.forEach(hotel => {
+            if (hotel.address.countryCode == countryName
+                && hotel.address.cityName == cityName) {
+                res.push(hotel);
+            }
+        });
+    }
+
+    return res;
+}
+
+export { loadHotels, searchHotels };
