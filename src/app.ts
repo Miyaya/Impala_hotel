@@ -1,26 +1,24 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import Cache from './services/cache';
-import { getHotelRaw, simplifyHotels } from './services/dataLoader';
+import Cache from './repos/cache';
+const cron = require('node-cron');
+import { loadHotels } from './services/hotels';
 
 const app = express();
 dotenv.config();
 
 const port = process.env.PORT;
-const ttl = 5 * 60;
-const cache = new Cache(ttl); // 5min
+const cache = new Cache(Number(process.env.TTL_CACHE));
+
+loadHotels(cache);
+let minutes = new Date().getMinutes();
+//cron.schedule(`${minutes} * * * *`, function () {
+cron.schedule(`* * * * *`, function () {
+    loadHotels(cache);
+});
 
 app.get('/', (req, res) => {
     res.send('The server is working!');
-});
-
-app.get('/hotels', async (req, res) => {
-
-    const raw = await getHotelRaw();
-    let hotels = simplifyHotels(raw);
-    hotels.forEach(hotel => cache.set(hotel, ttl));
-
-    res.send(hotels);
 });
 
 app.get('/hotels/:id', async (req, res) => {

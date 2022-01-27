@@ -16,7 +16,6 @@ class Cache {
     get(key: string) {
         const value = this.cache.get(key);
         if (value) {
-            // return Promise.resolve(value);
             return value;
         }
     }
@@ -25,13 +24,17 @@ class Cache {
         this.cache.set(hotel.hotelId, hotel, ttl);
     }
 
-    del(key: string) {
-        this.cache.del(key);
+    mset(hotels: Hotel[]) {
+        let dict = new Array;
+        hotels.forEach(hotel =>
+            dict.push({ key: hotel.hotelId, val: hotel }));
+        this.cache.mset(dict);
     }
 
-    flush() {
-        this.cache.flushAll();
+    getTtl(hotel: Hotel) {
+        return this.cache.getTtl(hotel.hotelId);
     }
+
 }
 
 export default Cache;
