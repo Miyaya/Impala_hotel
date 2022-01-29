@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000;
 const router = require('./routers/index');
 app.use(router);
 
-const swaggerDocument = require('./swagger.json');
+const swaggerDocument = require('../swagger.json');
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 loadHotels();
