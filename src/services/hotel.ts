@@ -36,6 +36,7 @@ async function loadHotels() {
 function searchHotels(countryName: string, cityName?: string) {
     let res: Hotel[] = [];
     const hotels = cache.getAll();
+
     if (cityName == undefined) {
         hotels.forEach(hotel => {
             if (hotel.address.countryCode == countryName) {
@@ -54,4 +55,4 @@ function searchHotels(countryName: string, cityName?: string) {
     return res;
 }
 
-export { loadHotels, searchHotels };
+export { getHotelRaw, parseHotels, loadHotels, searchHotels };

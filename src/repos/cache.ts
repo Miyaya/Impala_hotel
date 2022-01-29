@@ -1,5 +1,9 @@
 import Cache from "../models/cache";
+import dotenv from 'dotenv';
 
-const cache = new Cache(Number(process.env.TTL_CACHE));
+dotenv.config();
+
+const ttl = process.env.TTL_CACHE || 3600;
+const cache = new Cache(Number(ttl));
 
 export default cache;

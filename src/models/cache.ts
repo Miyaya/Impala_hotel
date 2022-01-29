@@ -13,26 +13,11 @@ class Cache {
         });
     }
 
-    get(key: string) {
-        const value = this.cache.get(key);
-        if (value) {
-            return value;
-        }
-    }
-
-    set(hotel: Hotel, ttl: number) {
-        this.cache.set(hotel.hotelId, hotel, ttl);
-    }
-
     mset(hotels: Hotel[]) {
         let dict = new Array;
         hotels.forEach(hotel =>
             dict.push({ key: hotel.hotelId, val: hotel }));
         this.cache.mset(dict);
-    }
-
-    getTtl(hotel: Hotel) {
-        return this.cache.getTtl(hotel.hotelId);
     }
 
     getAll() {
@@ -46,7 +31,6 @@ class Cache {
         });
         return hotels;
     }
-
 }
 
 export default Cache;
